@@ -38,10 +38,9 @@
 
 \def\jpsy@clsname{jjpsy}
 
-\def\WordCount#1{%
+\def\WordCount#1{% タイトルの文字数カウント用マクロ
   \@tempcnta\z@
   \@tfor \@tempa:=#1\do{\advance\@tempcnta\@ne}%
-  \the\@tempcnta
 }
 
 % ========================================
