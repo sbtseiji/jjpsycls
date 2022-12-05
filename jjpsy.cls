@@ -17,9 +17,9 @@
 % 投稿原稿はA4縦置き，上下左右に3cm以上の余白
 % フォントサイズは10.5pt以上
 %
-\newcommand{\jlreqkanjiskip}{5pt plus 0.4pt minus 0.5pt}
+%\newcommand{\jlreqkanjiskip}{5pt plus 0.4pt minus 0.5pt}
 \LoadClass[%
-  gutter=50truemm,%     上下左右の余白は30mm以上
+  gutter=40truemm,%     上下左右の余白は30mm以上
   line_length=25zw,%    1行は全角25文字
   number_of_lines=32,%  1ページは32行
   paper=a4,%            用紙サイズはA4
@@ -33,7 +33,6 @@
 \RequirePackage{tikzpagenodes} % 欄外への枠の表示用
 \RequirePackage{refcount}%       図表のカウンタ取得用
 \RequirePackage{xifthen}%        分岐処理用
-%\RequirePackage{xkeyval}%        キーの処理の単純化
 \RequirePackage[nolists,nomarkers]{endfloat}
 
 \def\jpsy@clsname{jjpsy}
@@ -261,10 +260,10 @@
     \end{center}
     % アブストラクト
     \par\vspace{2\zh}% 2行あける
-    \textbf{Abstract}\par% 見出し
+    \noindent\textbf{Abstract}\par% 見出し
     \ifthenelse{\isundefined{\@abstract}}{}{\@abstract}% アブストラクト
     \par\vspace{2\zh}% 2行あける
-    \textbf{Keywords}\par% 見出し
+    \noindent\textbf{Keywords}\par% 見出し
     % キーワード（最大5つ）
     \newcounter{jpsy@tmp}%
     \newcommand{\maxkeywd}{5}%
@@ -279,7 +278,7 @@
       \loop%
         \ifthenelse{\equal{\@nameuse{jpsy@keyword/0}}{}}{}{%
           \ifthenelse{\equal{\value{jpsy@tmp}}{0}}{}{, }%
-          \@nameuse{jpsy@keyword/0}%
+          \@nameuse{jpsy@keyword/\the\value{jpsy@tmp}}%
           \stepcounter{jpsy@tmp}%
         }%
         \ifnum\value{jpsy@tmp}<\value{jpsy@keywd}%
@@ -288,20 +287,20 @@
 %
 % AbstractとKeywordsの日本語訳
     \thispagestyle{empty}%
-    \textbf{Abstractの日本語訳}\par% 見出し
+    \noindent\textbf{Abstractの日本語訳}\par% 見出し
     \ifthenelse{\isundefined{\@jabstract}}{}{\@jabstract}% アブストラクト
     \par\vspace{2\zh}% 2行あける
-    \textbf{Keywordsの日本語訳}\par% 見出し
+    \noindent\textbf{Keywordsの日本語訳}\par% 見出し
     \setcounter{jpsy@tmp}{0}%
     \loop%
       \ifthenelse{\equal{\@nameuse{jpsy@keyword/0}}{}}{}{%
-        \ifthenelse{\equal{\value{jpsy@tmp}}{0}}{}{, }%
-        \@nameuse{jpsy@keyword/0}%
+        \ifthenelse{\equal{\value{jpsy@tmp}}{0}}{}{，}%
+        \@nameuse{jpsy@keyword/\the\value{jpsy@tmp}}%
         \stepcounter{jpsy@tmp}%
       }%
       \ifnum\value{jpsy@tmp}<\value{jpsy@keywd}%
         \repeat
-    \end{titlepage}
+  \end{titlepage}
   \clearpage
 }
 

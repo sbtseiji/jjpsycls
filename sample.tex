@@ -1,17 +1,40 @@
-\documentclass[a4paper]{jjpsy}
-\usepackage{lineno}
-\title{Demo aft format to use as template}
-\author{John Doe}
-\date{}
+\documentclass[jpcaption]{jjpsy}
+\usepackage{lineno}%行番号表示パッケージ
 
+\title{『心理学研究』投稿原稿作成用クラスファイル}{Class file for preparing a manuscript for submission to Journal of Psychological Research}
+\subtitle{基本的な使用方法について}{Basic instructions}
+\author{芝田 征司}
+\abstract{This is a LaTeX class file for preparing a manuscript for submission to the Japanese Journal of Psychological Research. Although only minimally defined, using this class file in combination with the biblatex-jpa style will significantly reduce the effort required to prepare your manuscript. Since this class file is intended for use in preparing manuscripts for submission, authors' names and affiliations are not output. However, author annotations may be used as needed.}
+
+\jabstract{これは，『心理学研究』への投稿原稿を作成するためのLaTeXクラスファイルです。最低限の定義しかありませんが，このクラスファイルとbiblatex-jpaスタイルを併用することで，原稿作成に必要な労力を大幅に軽減できるでしょう。なお，このクラスファイルは投稿原稿の準備に使用することを目的としているため，著者名や所属は出力されません。ただし，著者注釈は必要に応じて使用できます。}
+
+\keyword{LaTeX}{LaTeX} % キーワードは，英語と日本語訳をペアにして記載します。
+\keyword{class file}{クラスファイル} % 使用できるキーワードは最大5項目です。
+\keyword{how to use}{使用方法}
+
+
+\titlenote{助成金についての情報は，表題への注として作成されます。}
+\titlenote{学会発表などの情報についても，表題への注釈として作成されます。}
+
+\thanksnote{謝辞は著者名への注として作成されます。ただし，投稿原稿には著者情報は記載されませんので，このコマンドを用いた場合，脚注のみが原稿の末尾に付加されることになります。}
+\authornote{改姓，改名や所属機関の変更については，該当する著者名に注をつける形で記載します。ただし，投稿原稿では著者情報は記載されませんので，著者注は投稿原稿には記載する必要のあるケースは稀と思われます。}
 
 \begin{document}
-\linenumbers
-吾輩は猫である．名前はまだ無い．
-どこで生れたかとんと見当がつかぬ．
+\linenumbers % タイトルページの前にコマンドを挿入すると，タイトルページもナンバリングされます
+\maketitle
+\section{はじめに}
 
-\section{ほげ}
-何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している．吾輩はここで始めて書生というものを見た。
-しかもあとで聞くとそれは書生という人間中で一番獰悪な種族であったそうだ．
-この書生というのは時々我々を捕えて煮て食うという話である．
+本クラスファイルは，jlreqクラスを基本に，『心理学研究』投稿原稿用の最低限の書式設定を施したものです。『投稿・執筆の手びき』に指定されているように，用紙サイズはA4縦，1ページあたりの行数は32行，1行の文字数は25字に設定してあります。本クラスファイルでは，左余白を40mm（4cm）に設定し，それ以外の余白についてはとくに指定していませんが，この状態で，指定の書式である「上下左右の余白は3cm以上」という条件はクリアしているはずです。
+
+\subsection{横大見出し}
+
+
+\subsubsection{横小見出し}
+
+\Table{tab:表1}
+一八七四年実験心理学最初の大著『生理学的心理原理』（Grundzüge der physiologischen Psychologie）二巻が公にされた。それは劃期的な実験的研究の集積であって，彼の業績中もっとも重きをなす。
+
+\noteshere
+%\renewcommand{\jlreqkanjiskip}{0pt plus 0.4pt minus 0.5pt}
+
 \end{document}
