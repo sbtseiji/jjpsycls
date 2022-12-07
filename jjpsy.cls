@@ -27,144 +27,22 @@
   ]{jlreq}
 
 \RequirePackage{silence}
-\WarningFilter{fixltx2e}{}%      laTeX2eに関する警告を非表示
-\RequirePackage{graphicx}%       画像の使用
-\RequirePackage{url}%            URLの取り扱い
-\RequirePackage{tikzpagenodes} % 欄外への枠の表示用
-\RequirePackage{refcount}%       図表のカウンタ取得用
-\RequirePackage{xifthen}%        分岐処理用
-\RequirePackage[nolists,nomarkers]{endfloat}
+\WarningFilter{fixltx2e}{}%        laTeX2eに関する警告を非表示
+\RequirePackage{graphicx}%         画像の使用
+\RequirePackage{url}%              URLの取り扱い
+\RequirePackage[inline]{enumitem}% 箇条書き用
+\RequirePackage{tikzpagenodes} %   欄外への枠の表示用
+\RequirePackage{refcount}%         図表のカウンタ取得用
+\RequirePackage{xifthen}%          分岐処理用
+\RequirePackage[nolists,nomarkers]{endfloat}% 図表を最後に移動する
+\RequirePackage{scontents}%        アブストラクト環境用
+
 
 \def\jpsy@clsname{jjpsy}
 
 \def\WordCount#1{% タイトルの文字数カウント用マクロ
   \@tempcnta\z@
   \@tfor \@tempa:=#1\do{\advance\@tempcnta\@ne}%
-}
-
-% ========================================
-% 本文見出し 
-% ========================================
-% 見出しはゴシック・ボールド体とし，番号は付けない
-%
-% === 中央大見出し ===
-% 行の中央におき，その上下はそれぞれ1行ずつあける
-%
-\ModifyHeading{section}{%
-  font={\normalfont\gtfamily\bfseries},
-  before_space=2\zh,
-  after_space=2\zh,
-  number=false,
-  align=center
-}
-
-% === 横大見出し ===
-% 1行あけて左端から書き，本文は改行して始める
-%
-\ModifyHeading{subsection}{%
-  font={\normalfont\gtfamily\bfseries},
-  before_space=2\zh,
-  after_space=1\zh,
-  number=false,
-  align=left
-}
-
-% ただし，中央大見出しと横大見出しが連続する場合は，
-% 2行あけるのではなく，1行のみあける
-%
-\SetBlockHeadingSpaces{%
-  {
-    2\zh,_section,2\zh,_subsection,1\zh
-  }%
-}
-
-% === 横小見出し ===
-% 行をあけず，左端から全角1文字あけて書き，
-% 本文は1文字あけて続ける
-%
-\RenewRuninHeading{subsubsection}{3}{font={\jlreq@keepbaselineskip{\normalsize\sffamily\gtfamily\bfseries}},indent=1\jlreq@zw,number=false}
-
-
-% ========================================
-% 図表キャプション
-% ========================================
-%
-% 図と表の言語は原則として英語
-%
-% 図の番号はFigure X，表の番号はTable X
-%
-\renewcommand{\figurename}{Figure\ }
-\renewcommand{\tablename}{Table\ }
-
-% 図表番号の後，改行してタイトルを左そろえにする
-%
-\jlreqsetup{
-  caption_font=\normalfont%
-    \if@captionjp%    キャプションが日本語モードでないなら
-    \else\itshape\fi% キャプションをイタリック体にする
-  ,
-  caption_label_font=\normalfont,
-  caption_label_format={#1\newline\hspace{-\jlreq@zw}},
-  caption_align=left
-}
-
-% 図表の脚注設定
-\if@captionjp% 日本語と英語で表示を切り替え
-  \newcommand\footnotetitle{注）}
-\else
-  \newcommand\footnotetitle{\emph{Note. }}
-\fi
-\newcommand\figurefootnote[1]{\par\footnotesize\footnotetitle#1}
-\newcommand\tablefootnote[1]{\par\footnotesize\footnotetitle#1}
-
-% 表の特定の項目に注をつける場合のコマンド
-\newcounter{tbmark}[table]
-\newcommand\tbmark{% 表の特定の項目にマーカーをつける
-  \stepcounter{tbmark}%
-  \hspace{.1\zw}\hbox{\textsuperscript{\normalfont\alph{tbmark}}}}
-
-% ========================================
-% 図表挿入コマンド
-% ========================================
-%
-\newcounter{tblnum}%欄外に表示済の表番号
-\newcounter{fignum}%欄外に表示済の図番号
-\newcounter{tmp}%比較処理用のカウンタ
-
-% ページの右側余白に［Table X］と印刷する
-\newcommand\tblhere[1]{% 
-  \tikz[remember picture,overlay]{%
-  \coordinate (a) at (0,0);
-  \coordinate (b) at (a -| current page text area.east);
-  \node[draw, xshift = 10mm] at (b) {Table #1};}%
-}
-
-% ページの右側余白に［Figure X］と印刷する
-\newcommand\fighere[1]{% 
-  \tikz[remember picture,overlay]{%
-  \coordinate (a) at (0,0);
-  \coordinate (b) at (a -| current page text area.east);
-  \node[draw, xshift = 10mm] at (b) {Figure #1};}%
-}
-
-% 最初に表を参照した場所に［Table X］と印刷する
-\newcommand\Table[1]{%
-  Table \ref{#1}%
-  \setcounterref{tmp}{#1}%
-  \ifnumless{\value{tblnum}}{\value{tmp}}{%
-    \setcounterref{tblnum}{#1}%
-    \tblhere{\ref{#1}}%
-  }{}%
-}
-
-% 最初に図を参照した場所に［Table X］と印刷する
-\newcommand\Figure[1]{%
-  Figure \ref{#1}%
-  \setcounterref{tmp}{#1}%
-  \ifnumless{\value{fignum}}{\value{tmp}}{%
-    \setcounterref{fignum}{#1}%
-    \fighere{\ref{#1}}%
-  }{}%
 }
 
 
@@ -215,14 +93,6 @@
   \stepcounter{jpsy@ntcount}%
 }
 
-% 本文中の注（表紙ページの注から通し番号）
-\newcommand{\note}[1]{%
-  \@namedef{jpsy@notes/\the\value{jpsy@ntcount}}{#1}%
-  \hspace{0\zw}\hbox{\textsuperscript{\the\value{jpsy@ntcount}}}%
-  \stepcounter{jpsy@ntcount}%
-}
-
-
 % 表紙ページの作成
 % \edef\@wdcnt{\noexpand\WordCount{\@jtitle}}
 \newcounter{jpsy@tttmp}
@@ -260,10 +130,9 @@
     \end{center}
     % アブストラクト
     \par\vspace{2\zh}% 2行あける
-    \noindent\textbf{Abstract}\par% 見出し
+    \subsection*{Abstract}% 見出し
     \ifthenelse{\isundefined{\@abstract}}{}{\@abstract}% アブストラクト
-    \par\vspace{2\zh}% 2行あける
-    \noindent\textbf{Keywords}\par% 見出し
+    \subsection*{Keywords}% 見出し
     % キーワード（最大5つ）
     \newcounter{jpsy@tmp}%
     \newcommand{\maxkeywd}{5}%
@@ -287,10 +156,9 @@
 %
 % AbstractとKeywordsの日本語訳
     \thispagestyle{empty}%
-    \noindent\textbf{Abstractの日本語訳}\par% 見出し
+    \subsection*{Abstractの日本語訳}% 見出し
     \ifthenelse{\isundefined{\@jabstract}}{}{\@jabstract}% アブストラクト
-    \par\vspace{2\zh}% 2行あける
-    \noindent\textbf{Keywordsの日本語訳}\par% 見出し
+    \subsection*{Keywordsの日本語訳}% 見出し
     \setcounter{jpsy@tmp}{0}%
     \loop%
       \ifthenelse{\equal{\@nameuse{jpsy@keyword/0}}{}}{}{%
@@ -304,6 +172,84 @@
   \clearpage
 }
 
+
+% ========================================
+% 本文見出し 
+% ========================================
+% 見出しはゴシック・ボールド体とし，番号は付けない
+%
+% === 中央大見出し ===
+% 行の中央におき，その上下はそれぞれ1行ずつあける
+%
+\ModifyHeading{section}{%
+  font={\normalfont\gtfamily\bfseries},
+  before_space=2\zh,
+  after_space=2\zh,
+  number=false,
+  align=center
+}
+
+% === 横大見出し ===
+% 1行あけて左端から書き，本文は改行して始める
+%
+\ModifyHeading{subsection}{%
+  font={\normalfont\gtfamily\bfseries},
+  before_space=2\zh,
+  after_space=1\zh,
+  number=false,
+  align=left
+}
+
+% ただし，中央大見出しと横大見出しが連続する場合は，
+% 2行あけるのではなく，1行のみあける
+%
+\SetBlockHeadingSpaces{%
+  {
+    2\zh,_section,2\zh,_subsection,1\zh
+  }%
+}
+
+% === 横小見出し ===
+% 行をあけず，左端から全角1文字あけて書き，
+% 本文は1文字あけて続ける
+%
+\RenewRuninHeading{paragraph}{4}{font={\jlreq@keepbaselineskip{\normalsize\sffamily\gtfamily\bfseries}},indent=1\jlreq@zw,number=false}
+
+% 本文中の注（表紙ページの注から通し番号）
+% フロート環境中では本文とは別扱い
+\newcommand{\note}[1]{%
+  \ifx\@captype\@undefined%
+    \@namedef{jpsy@notes/\the\value{jpsy@ntcount}}{#1}%
+    \hspace{0\zw}\hbox{\textsuperscript{\the\value{jpsy@ntcount}}}%
+    \stepcounter{jpsy@ntcount}%
+  \else
+    \floatfootnote{#1}%
+  \fi
+}
+
+
+% ========================================
+% 序列
+% ========================================
+%
+% 序列あり段落用のインデント設定
+\newlist{plist}{enumerate}{1}
+\setlist[plist,1]{%
+  label=\arabic*.\ % 
+}
+
+% 段落内序列
+\newlist{llist}{enumerate*}{1}
+\setlist[llist,1]{%
+  label=(\alph*),%
+  itemjoin={{，}},itemjoin*={{，}},%
+  afterlabel=\unskip{\thinspace}}
+%%
+
+% ========================================
+% 脚注
+% ========================================
+%
 % 脚注の出力
 \newcounter{jpsy@nttmp}
 \newcommand{\noteshere}{%
@@ -316,6 +262,96 @@
     \ifnum\value{jpsy@nttmp}<\value{jpsy@ntcount}\repeat%
 }
 
-\endinput
-%%
+
+% ========================================
+% ダッシュ
+% ========================================
+%
+% ダッシュ（1字分）
+\def\dash{---}
+
+% 2倍ダッシュ（2字分）
+\def\ddash{------}
+
+% 2分ダッシュ（半字分）
+\def\hdash{--}
+
+
+
+% ========================================
+% 図表キャプション
+% ========================================
+%
+% 図と表の言語は原則として英語
+%
+% 図の番号はFigure X，表の番号はTable X
+%
+\renewcommand{\figurename}{Figure\ }
+\renewcommand{\tablename}{Table\ }
+
+% 図表番号の後，改行してタイトルを左そろえにする
+%
+\jlreqsetup{
+  caption_font=\normalfont%
+    \if@captionjp%    キャプションが日本語モードでないなら
+    \else\itshape\fi% キャプションをイタリック体にする
+  ,
+  caption_label_font=\normalfont,
+  caption_label_format={#1\newline\hspace{-\jlreq@zw}},
+  caption_align=left
+}
+
+% 図表の脚注設定
+\if@captionjp% 日本語と英語で表示を切り替え
+  \newcommand\footnotetitle{注）}
+\else
+  \newcommand\footnotetitle{\emph{Note. }}
+\fi
+\newcommand\floatfootnote[1]{\par\vspace{1\zh}\footnotesize\footnotetitle#1\vspace{1\zh}}
+
+% ========================================
+% 図表挿入コマンド
+% ========================================
+%
+\newcounter{tblnum}%欄外に表示済の表番号
+\newcounter{fignum}%欄外に表示済の図番号
+\newcounter{tmp}%比較処理用のカウンタ
+
+% ページの右側余白に［Table X］と印刷する
+\newcommand\tblhere[1]{% 
+  \tikz[remember picture,overlay]{%
+  \coordinate (a) at (0,0);
+  \coordinate (b) at (a -| current page text area.east);
+  \node[draw, xshift = 10mm] at (b) {Table #1};}%
+}
+
+% ページの右側余白に［Figure X］と印刷する
+\newcommand\fighere[1]{% 
+  \tikz[remember picture,overlay]{%
+  \coordinate (a) at (0,0);
+  \coordinate (b) at (a -| current page text area.east);
+  \node[draw, xshift = 10mm] at (b) {Figure #1};}%
+}
+
+% 最初に表を参照した場所に［Table X］と印刷する
+\newcommand\Table[1]{%
+  Table \ref{#1}%
+  \setcounterref{tmp}{#1}%
+  \ifnumless{\value{tblnum}}{\value{tmp}}{%
+    \setcounterref{tblnum}{#1}%
+    \tblhere{\ref{#1}}%
+  }{}%
+}
+
+% 最初に図を参照した場所に［Figure X］と印刷する
+\newcommand\Figure[1]{%
+  Figure \ref{#1}%
+  \setcounterref{tmp}{#1}%
+  \ifnumless{\value{fignum}}{\value{tmp}}{%
+    \setcounterref{fignum}{#1}%
+    \fighere{\ref{#1}}%
+  }{}%
+}
+
+
 %% End of file `jjpsy.cls'.
