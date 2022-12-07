@@ -1,10 +1,12 @@
 \documentclass{jjpsy}
+\usepackage[backend=biber,style=jpa]{biblatex}% 心理学研究用文献リストスタイル
 \usepackage{lineno}%   行番号表示パッケージ
 \usepackage{booktabs}% 表作成用パッケージ
 \usepackage{siunitx}%  表の小数点位置を揃えるのに使用
 \usetikzlibrary{calc}% TikZによる作図で座標計算可能にする
 \usetikzlibrary{positioning}% TikZによるノード配置を効率化する
 \usetikzlibrary{arrows.meta}% パス図の矢印用
+\addbibresource{bunken.bib}
 
 % ========== 表題 ==========
 % 表題は，日本語の表題と英訳をセットにして入力します。
@@ -55,7 +57,7 @@
 \maketitle
 \section{はじめに}
 
-本クラスファイルは，jlreqクラスを基本に，『心理学研究』投稿原稿用の最低限の書式設定を施したものです。日本心理学会の『投稿・執筆の手びき』\parencite{}に指定されているように，用紙サイズはA4縦，1ページあたりの行数は32行，1行の文字数は25字に設定してあります。本クラスファイルでは，左余白を40mm（4cm）に設定し，それ以外の余白についてはとくに指定していませんが，この状態で，指定の書式である「上下左右の余白は3cm以上」という条件はクリアしているはずです。
+本クラスファイルは，jlreqクラスを基本に，『心理学研究』投稿原稿用の最低限の書式設定を施したものです。日本心理学会の『投稿・執筆の手びき』\parencite{日本心理学会2022}に指定されているように，用紙サイズはA4縦，1ページあたりの行数は32行，1行の文字数は25字に設定してあります。本クラスファイルでは，左余白を40mm（4cm）に設定し，それ以外の余白についてはとくに指定していませんが，この状態で，指定の書式である「上下左右の余白は3cm以上」という条件はクリアしているはずです。
 
 \section{本文の書式}
 \subsection{見出し}
@@ -261,6 +263,9 @@ table環境\texttt{\textbackslash{}begin\{table\}}\dash\texttt{\textbackslash{}e
 
 \texttt{jjpsy}クラスは，『心理学研究』投稿用の原稿を作成する際の細々した設定をできるだけ自動化できるよう作成したものです。本クラスファイルが用意しているのは非常に基本的な機能のみですが，\LaTeX{}は非常に自由度の高い組版ツールです。足りない部分，気に入らない部分は，各自で設定を追加したり，変更したりしていけばよいでしょう。
 
-%\printbibliography[title=引用文献]
-\noteshere % 脚注表示用コマンド
+% こに引用文献リストを作成
+\printbibliography[title=引用文献]
+
+% ここに脚注を表示
+\noteshere 
 \end{document}
