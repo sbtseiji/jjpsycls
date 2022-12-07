@@ -1,0 +1,3 @@
+[submodule "biblatex-jpa"]
+	path = biblatex-jpa
+	url = https://github.com/sbtseiji/biblatex-jpa.git

@@ -15,3 +15,4 @@ sample.bcf
 sample.run.xml
 prh.yml
 .textlintrc
+.DS_Store
