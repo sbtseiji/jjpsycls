@@ -9,5 +9,9 @@ sample.log
 sample.fls
 sample.synctex.gz
 sample.ttt
+sample.bbl
+sample.blg
+sample.bcf
+sample.run.xml
 prh.yml
 .textlintrc
